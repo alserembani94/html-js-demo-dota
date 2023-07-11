@@ -1,0 +1,143 @@
+<script>
+  // const Axe = {
+  //   name: "Axe",
+  //   pukul: function () {
+  //     // ...pukul
+  //   },
+  //   buyItem: function (namaItem) {
+  //     console.log(namaItem);
+  //   },
+  // };
+  // const Antimage = {
+  //   name: "AntiMage",
+  //   pukul: function () {
+  //     // ...pukul
+  //   },
+  //   buyItem: function (namaItem) {
+  //     console.log(namaItem);
+  //   },
+  // };
+  // const Earthshaker = {
+  //   name: "EarthShaker",
+  //   pukul: function () {
+  //     // ...pukul
+  //   },
+  //   buyItem: function (namaItem) {
+  //     console.log(namaItem);
+  //   },
+  // };
+
+  // 1 - 10
+  // const nilai = Math.ceil(Math.random() * 10);
+
+  // 0 - 10
+  // const nilai = Math.floor(Math.random() * 11);
+
+  // 4 - 11
+  // 0 - 7
+  // const min = 4;
+  // const max = 11;
+  // const nilai = Math.floor(Math.random() * (max - min + 1)) + min;
+  // console.log(nilai);
+
+  function getRandomNumber(min, max) {
+    const nilai = Math.floor(Math.random() * (max - min + 1)) + min;
+    return nilai;
+  }
+
+  class Hero {
+    constructor(name, type) {
+      this.name = name;
+      this.type = type;
+    }
+
+    hp;
+    // 1. Getter - get the property
+    // 2. Setter - set the property
+    setName(newName) {
+      this.name = newName;
+    }
+    setHp(newHp) {
+      this.hp = newHp;
+    }
+
+    displayInfo() {
+      console.log(this.name + " (" + this.type + ") - HP: " + this.hp);
+    }
+  }
+
+  class Strength extends Hero {
+    constructor(name, type, hp) {
+      super(name, type);
+      this.hp = hp;
+    }
+
+    attack() {
+      const damage = getRandomNumber(3, 10);
+      const critical = getRandomNumber(1, 2);
+      const totalDamage = damage * critical;
+
+      return totalDamage;
+    }
+  }
+
+  class Agility extends Hero {
+    constructor(name, type, hp) {
+      super(name, type);
+      this.hp = hp;
+    }
+
+    attack() {
+      const damage = getRandomNumber(1, 5);
+      const specialSkill = getRandomNumber(0, 4);
+      const totalDamage = damage * specialSkill;
+
+      return totalDamage;
+    }
+  }
+
+  function playGame(heroA, heroB) {
+    // 1. Setiap round, random antara A atau B yang attack
+    // 2. Setiap round, kita akan display status kedua-dua hero
+    // 3. Kalau ada yang mati, habis game
+    let round = 1;
+
+    while (heroA.hp > 0 && heroB.hp > 0) {
+      console.log("Round " + round);
+      const attacking = getRandomNumber(0, 1);
+      if (attacking === 0) {
+        console.log(heroA.name + " is attacking");
+        const damage = heroA.attack();
+        console.log("Damage: " + damage);
+        const hpLeft = heroB.hp - damage;
+        heroB.setHp(hpLeft);
+        heroA.displayInfo();
+        heroB.displayInfo();
+      } else {
+        console.log(heroB.name + " is attacking");
+        const damage = heroB.attack();
+        console.log("Damage: " + damage);
+        const hpLeft = heroA.hp - damage;
+        heroA.setHp(hpLeft);
+        heroA.displayInfo();
+        heroB.displayInfo();
+      }
+
+      round++;
+      console.log("------------------------");
+    }
+
+    if (heroA.hp > 0) {
+      console.log(heroA.name + " wins the game!");
+    } else {
+      console.log(heroB.name + " wins the game!");
+    }
+  }
+
+  const Axe = new Strength("Axe", "Strength", 40);
+  // const AntiMage = new Agility("Anti Mage", "Agility", 35);
+  const Mars = new Strength("Mars", "Strength", 45);
+  Axe.displayInfo();
+  Mars.displayInfo();
+  playGame(Axe, Mars);
+</script>
